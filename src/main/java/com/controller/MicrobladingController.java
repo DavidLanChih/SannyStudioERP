@@ -3,6 +3,8 @@ package com.controller;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.sql.DataSource;
 
@@ -59,7 +61,36 @@ public class MicrobladingController {
 	// }
 
 	@PostMapping("/OrderForm") // 表單送出時會使用此方法
-	public String insertForm(MicrobladingOrder Data) {
+	public String insertForm(MicrobladingOrder Data, Model mod) {
+		
+		try(Connection con = datasource.getConnection();)
+		{	
+			//取得最新單號
+			int billno=0;
+			String qrySql="select max(s003_Billno) as billno from sal003";
+			Statement qryStmt=con.createStatement();
+			ResultSet qrsRs=qryStmt.executeQuery(qrySql);
+			if(qrsRs.next())
+			{
+				billno=qrsRs.getInt("billno");
+				System.out.println(billno);
+				billno++;
+			}
+			//匯入資料
+			String insertSql="insert to sal003 ( s003_Billno,"+
+												"s003_Name,"+
+												"s003_Sex,"+
+												"s003_Phone,"+
+												"s003_ServiceItem,"+
+												"s003_SalePrice,"+
+												"s003_CreateDate,"+
+												"s003_Memo) value(????????)";
+			
+		}
+		catch(SQLException e)
+		{
+			System.out.println(e);
+		}
 		System.out.println("Name: " + Data.getName() +
 				" Sex: " + Data.getSex() +
 				" Phone: " + Data.getPhone() +
@@ -67,14 +98,15 @@ public class MicrobladingController {
 				" SaleP: " + Data.getSalePrice() +
 				" Creat: " + Data.getCreateDate() +
 				" Memo: " + Data.getMemo());
-		if (Data.getName().length() != 0 &&
-				Data.getSex().length() != 0 &&
-				Data.getPhone().length() != 0 &&
-				Data.getServiceItem().length() != 0 &&
-				Data.getSalePrice().length() != 0 &&
-				Data.getCreateDate().length() != 0) {
+		if (	Data.getName().length()        !=0 &&
+				Data.getSex().length()         !=0 &&
+				Data.getPhone().length()       !=0 &&
+				Data.getServiceItem().length() !=0 &&
+				Data.getSalePrice().length()   !=0 &&
+				Data.getCreateDate().length()  !=0    ) 
+		{
 			System.out.println("ok");
-
+			
 		}
 		return "orderForm";
 	}

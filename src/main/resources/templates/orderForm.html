@@ -71,7 +71,7 @@
 								type="text"
 								name="salePrice"
 								id="salePrice"
-								placeholder="請輸入金額"
+								placeholder="請輸入實際銷售金額"
 								class="formbold-form-input"
 							/>	
 						</div>
@@ -84,7 +84,7 @@
 							<label for="memo" class="formbold-form-label">
 								備註說明<span style="color:red; font-size:12px;"> (可不填)</span>
 							</label>
-							<textarea rows="6" name="memo" id="memo" placeholder="請輸入備註...(可不填)"
+							<textarea rows="6" name="memo" id="memo" placeholder="請輸入備註..."
 								class="formbold-form-input"></textarea>
 						</div>
 
@@ -182,14 +182,19 @@
 			var serviceItem = document.getElementById("serviceItem").value;
 			var salePrice = document.getElementById("salePrice").value;
 			var createDate = document.getElementById("createDate").value;
+			var memo = document.getElementById("memo").value;
 			
-			if(name.length==0)alert("n"+name.length);
-			if(sex.length==0)alert("sex"+sex.length);
-			if(phone.length==0)alert("p"+phone.length);
-			if(serviceItem.length==0)alert("ser"+serviceItem.length);
-			if(salePrice.length==0)alert("sale"+salePrice.length);
-			if(createDate.length==0)alert("d"+createDate.length);
+			//防止輸入空白 
+			if(name.length==0)alert("請輸入客戶姓名！");
+			if(sex.length==0)alert("請輸入性別！");
+			if(phone.length==0)alert("請輸入電話！");
+			if(serviceItem.length==0)alert("請輸入服務項目！");
+			if(salePrice.length==0)alert("請輸入此次服務銷售金額！");
+			if(createDate.length==0)alert("請輸入施作日期！");
 			
+			//防止亂輸入
+			if(phone.length>10)alert("電話號碼不可超過10碼！");
+			if(memo.length>100)alert("備註不可超過一百字！");
 		}
 		
 	</script>
