@@ -12,7 +12,7 @@
 </head>
 
 <body class="is-preload">
-
+	
 	<!-- Wrapper -->
 	<div id="wrapper">
 
@@ -173,7 +173,11 @@
 	<script th:src="@{/assets/js/main.js}"></script>
 	<script>
 		 
-		
+		function infor() 
+		{
+			alert("123");
+		}
+
 		function send()
 		{
 			var name = document.getElementById("name").value;
@@ -195,6 +199,8 @@
 			//防止亂輸入
 			if(phone.length>10)alert("電話號碼不可超過10碼！");
 			if(memo.length>100)alert("備註不可超過一百字！");
+			var result = "${result}";
+			alert(result);
 		}
 		
 	</script>
