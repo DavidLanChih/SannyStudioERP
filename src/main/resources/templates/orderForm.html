@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>客戶每次紋繡建檔</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" th:href="@{/assets/css/main.css}" />
+	<link rel="stylesheet" th:href="@{/form/FormBold.css}" />
+	
+</head>
+
+<body class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Main -->
+		<div id="main">
+			<div class="inner">
+
+
+			</div>
+			<div class="formbold-main-wrapper">
+				<div class="formbold-form-wrapper">
+					
+					<form action="" method="POST">
+						<div class="formbold-mb-3">
+							<label for="name" class="formbold-form-label"> 客戶姓名 </label>
+							<input list="name" name="name" id="name" placeholder="請輸入姓名" class="formbold-form-input"/>
+							<datalist >
+								<option value="藍智"></option>
+								<option value="劉姍霓"></option>
+							</datalist>
+						</div>
+						<div class="formbold-mb-3">
+							<label for="sex" class="formbold-form-label">性別</label>
+							<select class="formbold-form-input" name="sex" id="sex">
+							  <option value="" selected>請選擇性別</option>
+							  <option value="male">男性</option>
+							  <option value="female">女性</option>
+							</select>
+						</div>
+						<div class="formbold-mb-3 ">
+							<label for="phone" class="formbold-form-label"> 客戶電話 </label>
+							<input
+								type="text"
+								name="phone"
+								id="phone"
+								placeholder="請輸入手機電話"
+								class="formbold-form-input"
+							/>	
+						</div>
+						
+						<div class="formbold-input-group">
+							<label for="serviceItem" class="formbold-form-label"> 服務項目 </label>
+
+							<select class="formbold-form-input" id="serviceItem" name="serviceItem" placeholder="Enter your service">
+								<option value="" selected>請選擇服務項目</option>
+								<option value="m001">單項<眉></option>
+								<option value="m002">單項<唇></option>
+								<option value="m003">單項<眼></option>
+								<option value="m004">套組<眉+唇></option>
+								<option value="m005">套組<眉+唇+眼></option>
+							</select>
+						</div>
+						<div class="formbold-mb-3 ">
+							<label for="salePrice" class="formbold-form-label"> 銷售金額 </label>
+							<input
+								type="text"
+								name="salePrice"
+								id="salePrice"
+								placeholder="請輸入金額"
+								class="formbold-form-input"
+							/>	
+						</div>
+						<div class="formbold-mb-3">
+							<label for="createDate" class="formbold-form-label"> 施作日期 </label>
+							<input type="date" name="createDate" id="createDate" class="formbold-form-input" />
+						</div>
+
+						<div>
+							<label for="memo" class="formbold-form-label">
+								備註說明<span style="color:red; font-size:12px;"> (可不填)</span>
+							</label>
+							<textarea rows="6" name="memo" id="memo" placeholder="請輸入備註...(可不填)"
+								class="formbold-form-input"></textarea>
+						</div>
+
+						<button class="formbold-btn" onclick="send()" >送出資料</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		  
+
+		<!-- Sidebar -->
+		<div id="sidebar">
+			<div class="inner">
+
+				<!-- Search -->
+				<section id="search" class="alt">
+					<!-- 未來設計:跳轉目標選單頁面 -->
+					<form method="post" action="">
+						<input type="text" name="query" id="query" placeholder="Search" />
+					</form>
+				</section>
+
+				<!-- Menu -->
+				<nav id="menu">
+					<header class="major">
+						<h2>Menu</h2>
+					</header>
+					<ul>
+						<li><a th:href="@{/home}">主畫面</a></li>
+						<li>
+							<span class="opener">銷售系統</span>
+							<ul>
+								<li><a th:href="@{/test}">客戶基本資料建檔</a></li>
+								<li><a th:href="@{/}">紋繡銷售建檔</a></li>
+								<li><a th:href="@{/}">護膚銷售建檔</a></li>
+							</ul>
+						</li>
+						<li>
+							<span class="opener">業績查詢系統</span>
+							<ul>
+								<li><a th:href="@{/}">本月紋繡業績查詢</a></li>
+								<li><a th:href="@{/}">本月護膚業績查詢</a></li>
+							</ul>
+						</li>
+						<li>
+							<span class="opener">進貨成本庫存系統</span>
+							<ul>
+								<li><a th:href="@{/}">商品名建檔</a></li>
+								<li><a th:href="@{/}">每次進貨花費建檔</a></li>
+								<li><a th:href="@{/}">目前庫存查詢</a></li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+
+				
+
+				<!-- Section -->
+				<section>
+					<header class="major">
+						<h2>Get in touch</h2>
+					</header>
+					<p>有任何問題可來電洽詢</p>
+					<ul class="contact">
+						<li class="icon solid fa-home">DavidLan</li>
+						<li class="icon solid fa-phone">0975-787-062</li>
+					</ul>
+				</section>
+
+				<!-- Footer -->
+				<footer id="footer">
+					<p class="copyright">&copy; SannyStudio All rights reserved. </p>
+				</footer>
+
+			</div>
+		</div>
+
+	</div>
+
+	<!-- Scripts -->
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/browser.min.js}"></script>
+	<script th:src="@{/assets/js/breakpoints.min.js}"></script>
+	<script th:src="@{/assets/js/util.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>
+	<script>
+		 
+		
+		function send()
+		{
+			var name = document.getElementById("name").value;
+			var sex = document.getElementById("sex").value;
+			var phone = document.getElementById("phone").value;
+			var serviceItem = document.getElementById("serviceItem").value;
+			var salePrice = document.getElementById("salePrice").value;
+			var createDate = document.getElementById("createDate").value;
+			
+			if(name.length==0)alert("n"+name.length);
+			if(sex.length==0)alert("sex"+sex.length);
+			if(phone.length==0)alert("p"+phone.length);
+			if(serviceItem.length==0)alert("ser"+serviceItem.length);
+			if(salePrice.length==0)alert("sale"+salePrice.length);
+			if(createDate.length==0)alert("d"+createDate.length);
+			
+		}
+		
+	</script>
+</body>
+
+</html>
