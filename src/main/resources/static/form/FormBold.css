@@ -64,7 +64,7 @@
   }
   .formbold-form-input {
     width: 100%;
-    padding: 13px 22px;
+    padding: 0px 22px;
     border-radius: 5px;
     border: 1px solid #dde3ec;
     background: #ffffff;
@@ -73,6 +73,7 @@
     color: #536387;
     outline: none;
     resize: none;
+    line-height: 2.5;
   }
   .formbold-form-input::placeholder,
   select.formbold-form-input,
@@ -260,18 +261,6 @@
     transform: translate(-50%, -50%);
   }
 
-  .formbold-form-input {
-    width: 100%;
-    padding: 13px 22px;
-    border-radius: 5px;
-    border: 1px solid #dde3ec;
-    background: #ffffff;
-    font-weight: 500;
-    font-size: 16px;
-    color: #07074d;
-    outline: none;
-    resize: none;
-  }
   .formbold-form-input::placeholder {
     color: #536387;
   }
