@@ -8,7 +8,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" th:href="@{/assets/css/main.css}" />
 	<link rel="stylesheet" th:href="@{/form/FormBold.css}" />
-	
+	<script th:src="@{/assets/js/jquery.min.js}"></script>
+	<script th:src="@{/assets/js/browser.min.js}"></script>
+	<script th:src="@{/assets/js/breakpoints.min.js}"></script>
+	<script th:src="@{/assets/js/util.js}"></script>
+	<script th:src="@{/assets/js/main.js}"></script>
+	<script th:inline="javascript">
+		//var result=[(${result})];
+		//var result = /*[[${result }]]*/ ''
+		var result = /*[[${Str}]]*/ ''
+	</script>
 </head>
 
 <body class="is-preload">
@@ -166,11 +175,7 @@
 	</div>
 
 	<!-- Scripts -->
-	<script th:src="@{/assets/js/jquery.min.js}"></script>
-	<script th:src="@{/assets/js/browser.min.js}"></script>
-	<script th:src="@{/assets/js/breakpoints.min.js}"></script>
-	<script th:src="@{/assets/js/util.js}"></script>
-	<script th:src="@{/assets/js/main.js}"></script>
+	
 	<script>
 		 
 		function infor() 
@@ -199,9 +204,14 @@
 			//防止亂輸入
 			if(phone.length>10)alert("電話號碼不可超過10碼！");
 			if(memo.length>100)alert("備註不可超過一百字！");
-			var result = "${result}";
-			alert(result);
+			//alert(result);
+			console.log(e);
 		}
+		
+		//window.onload = function(){
+		//	alert(result);
+		//}
+		
 		
 	</script>
 </body>

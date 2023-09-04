@@ -105,7 +105,8 @@ public class MicrobladingController {
 				preStmt.setString(7,Data.getCreateDate());
 				preStmt.setString(8,Data.getMemo());
 				preStmt.executeUpdate();
-				mod.addAttribute("result", "資料送出成功!");
+				String messageString="資料成功送出";
+				mod.addAttribute("result", messageString);
 				
 			}
 			
@@ -113,7 +114,7 @@ public class MicrobladingController {
 		catch(SQLException e)
 		{
 			System.out.println(e);
-			mod.addAttribute("result", "資料送出失敗，請聯絡負責資訊公司!");
+//			mod.addAttribute("result", "資料送出失敗，請聯絡負責資訊公司!");
 		}
 		System.out.println("Name: " + Data.getName() +
 				" Sex: " + Data.getSex() +
