@@ -72,7 +72,7 @@ public class MicrobladingController {
 				Data.getSalePrice().length()   !=0 &&
 				Data.getCreateDate().length()  !=0    ) 
 			{
-				System.out.println("para ok");
+				System.out.println("para ok&git OK");
 				//取得最新單號
 				int billno=0;
 				String qrySql="select max(s003_Billno) as billno from sal003";
