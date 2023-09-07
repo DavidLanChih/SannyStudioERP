@@ -5,16 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>客戶每次紋繡建檔</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script th:src="@{/js/vue.min.js}"></script>
+    <script th:inline="javascript">
+		var result = /*[[${result}]]*/ ''
+	</script>
 </head>
 <body>
-    
+    <!-- <h1>success!</h1>
+    <button onclick="res()">抓取剛剛上傳資料</button> -->
 </body>
 <script>
-    Swal.fire
-    (
-        '資料送出成功！',
-        'success'
-    )
+	//自動執行
+	window.onload=function(){
+			//res();
+			infoBox(result);
+	};
+
+	// function res(){
+	// 	alert(typeof result );
+	// }
+
+    function infoBox(result){
+		if(result == 'success'){
+			Swal.fire(
+                    {
+                        title:'資料送出成功！',
+                        icon:'success'                
+                    }
+                );	
+            
+		}
+		else{
+			Swal.fire(
+                    {
+                        title:"送出失敗！請聯繫DavidLan！",
+                        icon:'error'                
+                    }
+                );	
+		}
+        
+    }
 </script>
 
 </html>

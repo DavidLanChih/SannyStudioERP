@@ -37,7 +37,7 @@
 			<div class="formbold-main-wrapper">
 				<div class="formbold-form-wrapper" id="myForm">
 					
-					<!-- <form action="/OrderForm/POST" method="POST" id="myForm"> -->
+					<form action="" method="POST" id="myForm">
 						<div class="formbold-mb-3">
 							<label for="name" class="formbold-form-label"> 客戶姓名 </label>
 							<input list="name" name="name" id="name" placeholder="請輸入姓名" class="formbold-form-input"/>
@@ -101,7 +101,7 @@
 						</div>
 
 						<button class="formbold-btn" onclick="send()" v-on:click="queryHandler">送出資料</button>
-					<!-- </form> -->
+					</form>
 				</div>
 			</div>
 		</div>
@@ -185,7 +185,7 @@
 		});
 	</script>
 
-	<script>
+	<!-- <script>
         //1.建構一個Vue Instance物件
         var app=new Vue(
 			{
@@ -216,7 +216,7 @@
 			});
 		app.$mount('#myForm');
 			
-	</script>
+	</script> -->
 	
 	<script>
 		 
@@ -247,7 +247,7 @@
 			if(phone.length>10)alert("電話號碼不可超過10碼！");
 			if(memo.length>100)alert("備註不可超過一百字！");
 			//alert(result);
-			console.log(e);
+			//console.log(e);
 		}
 		
 		//window.onload = function(){

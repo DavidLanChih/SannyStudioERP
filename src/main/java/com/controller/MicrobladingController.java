@@ -1,10 +1,13 @@
 package com.controller;
 
+import java.lang.reflect.Method;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.sql.DataSource;
 
@@ -65,6 +68,14 @@ public class MicrobladingController {
 	@PostMapping("/OrderForm") // 表單送出時會使用此方法
 	public String postForm(MicrobladingOrder Data, Model mod) {
 		
+		System.out.println("Name: " + Data.getName() +
+				" Sex: "   + Data.getSex() +
+				" Phone: " + Data.getPhone() +
+				" Servi: " + Data.getServiceItem() +
+				" SaleP: " + Data.getSalePrice() +
+				" Creat: " + Data.getCreateDate() +
+				" Memo: "  + Data.getMemo());
+		
 		try(Connection con = datasource.getConnection();)
 		{	
 			if (Data.getName().length()        !=0 &&
@@ -107,24 +118,41 @@ public class MicrobladingController {
 				preStmt.setString(7,Data.getCreateDate());
 				preStmt.setString(8,Data.getMemo());
 				preStmt.executeUpdate();
-				String messageString="資料成功送出";
-				mod.addAttribute("result", messageString);
 				
+				mod.addAttribute("result", "success");
+			}
+			else {
+				mod.addAttribute("result", "error");
 			}
 			
 		}
-		catch(SQLException e)
+		catch(Exception e)
 		{
-			System.out.println(e);
-			mod.addAttribute("result", "資料送出失敗，請聯絡負責資訊公司!");
+			String DateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+			String SQL="insert into errorlog (  e_FormPostion , "
+											+ " e_ErrorMessage, "
+											+ "	e_Date )"
+											+ " values (?,?,?)";
+			try {
+
+				Connection conn =datasource.getConnection();
+				PreparedStatement Stmt=conn.prepareStatement(SQL);
+				//類別名稱+方法名稱
+				Stmt.setString(1,this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName() );
+				//例外的完整訊息(包含例外種類)
+				Stmt.setString(2,e.toString());
+				//當下日期(yyyy-mm-dd hh:mm:ss)
+				Stmt.setString(3,DateTime.substring(0, 10)+" "+DateTime.substring(11, 19));
+				Stmt.executeUpdate();
+				conn.close();
+				Stmt.close();
+			}catch(Exception ex) {
+				System.out.println(ex);
+			}
+			finally {				
+				mod.addAttribute("result", "error");
+			}
 		}
-		System.out.println("Name: " + Data.getName() +
-				" Sex: " + Data.getSex() +
-				" Phone: " + Data.getPhone() +
-				" Servi: " + Data.getServiceItem() +
-				" SaleP: " + Data.getSalePrice() +
-				" Creat: " + Data.getCreateDate() +
-				" Memo: " + Data.getMemo());
 		
 		return "checkForm";
 	}
@@ -136,4 +164,9 @@ public class MicrobladingController {
 		System.out.println("GET");
 		return "orderForm";
 	}
+	
+	public String toString()
+    {
+        return getClass().getName();
+    }
 }
