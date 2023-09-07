@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -61,7 +63,7 @@ public class MicrobladingController {
 	// }
 
 	@PostMapping("/OrderForm") // 表單送出時會使用此方法
-	public String insertForm(MicrobladingOrder Data, Model mod) {
+	public String postForm(MicrobladingOrder Data, Model mod) {
 		
 		try(Connection con = datasource.getConnection();)
 		{	
@@ -114,7 +116,7 @@ public class MicrobladingController {
 		catch(SQLException e)
 		{
 			System.out.println(e);
-//			mod.addAttribute("result", "資料送出失敗，請聯絡負責資訊公司!");
+			mod.addAttribute("result", "資料送出失敗，請聯絡負責資訊公司!");
 		}
 		System.out.println("Name: " + Data.getName() +
 				" Sex: " + Data.getSex() +
@@ -124,8 +126,10 @@ public class MicrobladingController {
 				" Creat: " + Data.getCreateDate() +
 				" Memo: " + Data.getMemo());
 		
-		return "orderForm";
+		return "checkForm";
 	}
+	
+	
 
 	@GetMapping("/OrderForm") // 一開始登入表單時走此方法
 	public String loginForm() {
