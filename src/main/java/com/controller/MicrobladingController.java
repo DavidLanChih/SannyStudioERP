@@ -70,13 +70,13 @@ public class MicrobladingController {
 	@PostMapping("/OrderForm") // 表單送出時會使用此方法
 	public String postForm(MicrobladingOrder Data, Model mod) {
 		
-		System.out.println("Name: " + Data.getName() +
-				" Sex: "   + Data.getSex() +
-				" Phone: " + Data.getPhone() +
-				" Servi: " + Data.getServiceItem() +
-				" SaleP: " + Data.getSalePrice() +
-				" Creat: " + Data.getCreateDate() +
-				" Memo: "  + Data.getMemo());
+		// System.out.println("Name: " + Data.getName() +
+		// 		" Sex: "   + Data.getSex() +
+		// 		" Phone: " + Data.getPhone() +
+		// 		" Servi: " + Data.getServiceItem() +
+		// 		" SaleP: " + Data.getSalePrice() +
+		// 		" Creat: " + Data.getCreateDate() +
+		// 		" Memo: "  + Data.getMemo());
 		if (Data.getName().length()        !=0 &&
 			Data.getSex().length()         !=0 &&
 			Data.getPhone().length()       !=0 &&
@@ -88,7 +88,6 @@ public class MicrobladingController {
 			try(Connection con = datasource.getConnection();)
 			{	
 				
-					System.out.println("para ok&git OK");
 					//取得最新單號
 					int billno=0;
 					SQL="select max(s003_Billno) as billno from sal003";
@@ -97,19 +96,19 @@ public class MicrobladingController {
 					if(qryRs.next())
 					{
 						billno=qryRs.getInt("billno");
-						System.out.println(billno);
+						//System.out.println(billno);
 						billno++;
 					}
 					//匯入資料
 					SQL="insert into sal003 ( s003_Billno,"
-														+ "s003_Name,"
-														+ "s003_Sex,"
-														+ "s003_Phone,"
-														+ "s003_ServiceItem,"
-														+ "s003_SalePrice,"
-														+ "s003_CreateDate,"
-														+ "s003_Memo) "
-														+ "values (?,?,?,?,?,?,?,?)";
+											+ "s003_Name,"
+											+ "s003_Sex,"
+											+ "s003_Phone,"
+											+ "s003_ServiceItem,"
+											+ "s003_SalePrice,"
+											+ "s003_CreateDate,"
+											+ "s003_Memo) "
+											+ "values (?,?,?,?,?,?,?,?)";
 					PreparedStatement preStmt=con.prepareStatement(SQL);
 					preStmt.setInt(1,billno);
 					preStmt.setString(2,Data.getName());
