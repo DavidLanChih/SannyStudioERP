@@ -36,7 +36,8 @@ public class MicrobladingController {
 	@Autowired
 	private DataSource datasource; // 使用預設spring.datasource(application.properties自己設定內)
 
-	String DateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+	String formatDateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+	String nowDateTime = formatDateTime.substring(0, 10)+" "+formatDateTime.substring(11, 19);
 	String SQL = "";	
 	// 一般表格送出(若需要邊調閱資料庫，邊改寫資料，最後再送出者才用restful)
 	// @RequestMapping(path = "/CreateForm", method = { RequestMethod.GET,
@@ -142,7 +143,7 @@ public class MicrobladingController {
 					//例外的完整訊息(包含例外種類)
 					Stmt.setString(2,e.toString());
 					//當下日期(yyyy-mm-dd hh:mm:ss)
-					Stmt.setString(3,DateTime.substring(0, 10)+" "+DateTime.substring(11, 19));
+					Stmt.setString(3,nowDateTime);
 					Stmt.executeUpdate();
 					con.close();
 					Stmt.close();
@@ -165,8 +166,13 @@ public class MicrobladingController {
 
 	@GetMapping("/OrderForm") // 一開始登入表單時走此方法
 	public String loginForm() {
-		System.out.println("GET");
+		System.out.println("loginForm: (GET) "+nowDateTime);
 		return "orderForm";
 	}
 	
+	@GetMapping("/test") 
+	public String testForm() {
+		System.out.println("test");
+		return "test";
+	}
 }

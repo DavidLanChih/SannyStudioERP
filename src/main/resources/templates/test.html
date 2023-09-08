@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <button id = "b" onclick="res()">test</button>
+</body>
+<script>
+    // window.onload=function(){
+    //     res();
+
+    // }
+    var redirctUrl = "../Microblading/OrderForm";
+    function res(){
+        Swal.fire(
+                    {
+                        title:'資料送出成功！',
+                        icon:'success'   ,
+                        confirmButtonText: 'OK'             
+                    }
+                    ).then((result)=>{
+                        if(result.isConfirmed){window.location.replace(redirctUrl);}
+                    });
+	
+}
+</script>
+</html>

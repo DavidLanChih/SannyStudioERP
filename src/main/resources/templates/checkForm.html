@@ -15,10 +15,14 @@
     <button onclick="res()">抓取剛剛上傳資料</button> -->
 </body>
 <script>
+
+    var redirctUrl = "../Microblading/OrderForm";
+
 	//自動執行
 	window.onload=function(){
 			//res();
 			infoBox(result);
+            
 	};
 
 	// function res(){
@@ -27,21 +31,35 @@
 
     function infoBox(result){
 		if(result == 'success'){
-			Swal.fire(
-                    {
+			Swal.fire({
                         title:'資料送出成功！',
-                        icon:'success'                
+                        icon:'success'   ,
+                        confirmButtonText: 'OK'             
+                    })
+                .then(
+                    (result)=>{
+                        if(result.isConfirmed){
+                            window.location.replace(redirctUrl);
+                        }
                     }
-                );	
-            
+                )
+                
 		}
 		else{
 			Swal.fire(
                     {
                         title:"送出失敗！請聯繫DavidLan！",
-                        icon:'error'                
+                        icon:'error'   ,
+                        confirmButtonText: 'OK'             
                     }
-                );	
+                )
+                .then(
+                    (result)=>{
+                        if(result.isConfirmed){
+                            window.location.replace(redirctUrl);
+                        }
+                    }
+                )
 		}
         
     }
