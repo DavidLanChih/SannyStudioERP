@@ -36,6 +36,8 @@ public class MicrobladingController {
 	@Autowired
 	private DataSource datasource; // 使用預設spring.datasource(application.properties自己設定內)
 
+	String DateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
+	String SQL = "";	
 	// 一般表格送出(若需要邊調閱資料庫，邊改寫資料，最後再送出者才用restful)
 	// @RequestMapping(path = "/CreateForm", method = { RequestMethod.GET,
 	// RequestMethod.POST }) // 網站URL根目錄
@@ -75,85 +77,88 @@ public class MicrobladingController {
 				" SaleP: " + Data.getSalePrice() +
 				" Creat: " + Data.getCreateDate() +
 				" Memo: "  + Data.getMemo());
-		
-		try(Connection con = datasource.getConnection();)
-		{	
-			if (Data.getName().length()        !=0 &&
-				Data.getSex().length()         !=0 &&
-				Data.getPhone().length()       !=0 &&
-				Data.getServiceItem().length() !=0 &&
-				Data.getSalePrice().length()   !=0 &&
-				Data.getCreateDate().length()  !=0    ) 
-			{
-				System.out.println("para ok&git OK");
-				//取得最新單號
-				int billno=0;
-				String qrySql="select max(s003_Billno) as billno from sal003";
-				Statement qryStmt=con.createStatement();
-				ResultSet qrsRs=qryStmt.executeQuery(qrySql);
-				if(qrsRs.next())
-				{
-					billno=qrsRs.getInt("billno");
-					System.out.println(billno);
-					billno++;
-				}
-				//匯入資料
-				String insertSql="insert into sal003 ( s003_Billno,"
-													+ "s003_Name,"
-													+ "s003_Sex,"
-													+ "s003_Phone,"
-													+ "s003_ServiceItem,"
-													+ "s003_SalePrice,"
-													+ "s003_CreateDate,"
-													+ "s003_Memo) "
-													+ "values (?,?,?,?,?,?,?,?)";
-				PreparedStatement preStmt=con.prepareStatement(insertSql);
-				preStmt.setInt(1,billno);
-				preStmt.setString(2,Data.getName());
-				preStmt.setString(3,Data.getSex());
-				preStmt.setString(4,Data.getPhone());
-				preStmt.setString(5,Data.getServiceItem());
-				int iPrice=Integer.parseInt(Data.getSalePrice());
-				preStmt.setInt(6,iPrice);
-				preStmt.setString(7,Data.getCreateDate());
-				preStmt.setString(8,Data.getMemo());
-				preStmt.executeUpdate();
-				
-				mod.addAttribute("result", "success");
-			}
-			else {
-				mod.addAttribute("result", "error");
-			}
-			
-		}
-		catch(Exception e)
+		if (Data.getName().length()        !=0 &&
+			Data.getSex().length()         !=0 &&
+			Data.getPhone().length()       !=0 &&
+			Data.getServiceItem().length() !=0 &&
+			Data.getSalePrice().length()   !=0 &&
+			Data.getCreateDate().length()  !=0    ) 
 		{
-			String DateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
-			String SQL="insert into errorlog (  e_FormPostion , "
-											+ " e_ErrorMessage, "
-											+ "	e_Date )"
-											+ " values (?,?,?)";
-			try {
 
-				Connection conn =datasource.getConnection();
-				PreparedStatement Stmt=conn.prepareStatement(SQL);
-				//類別名稱+方法名稱
-				Stmt.setString(1,this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName() );
-				//例外的完整訊息(包含例外種類)
-				Stmt.setString(2,e.toString());
-				//當下日期(yyyy-mm-dd hh:mm:ss)
-				Stmt.setString(3,DateTime.substring(0, 10)+" "+DateTime.substring(11, 19));
-				Stmt.executeUpdate();
-				conn.close();
-				Stmt.close();
-			}catch(Exception ex) {
-				System.out.println(ex);
+			try(Connection con = datasource.getConnection();)
+			{	
+				
+					System.out.println("para ok&git OK");
+					//取得最新單號
+					int billno=0;
+					SQL="select max(s003_Billno) as billno from sal003";
+					Statement qryStmt=con.createStatement();
+					ResultSet qryRs=qryStmt.executeQuery(SQL);
+					if(qryRs.next())
+					{
+						billno=qryRs.getInt("billno");
+						System.out.println(billno);
+						billno++;
+					}
+					//匯入資料
+					SQL="insert into sal003 ( s003_Billno,"
+														+ "s003_Name,"
+														+ "s003_Sex,"
+														+ "s003_Phone,"
+														+ "s003_ServiceItem,"
+														+ "s003_SalePrice,"
+														+ "s003_CreateDate,"
+														+ "s003_Memo) "
+														+ "values (?,?,?,?,?,?,?,?)";
+					PreparedStatement preStmt=con.prepareStatement(SQL);
+					preStmt.setInt(1,billno);
+					preStmt.setString(2,Data.getName());
+					preStmt.setString(3,Data.getSex());
+					preStmt.setString(4,Data.getPhone());
+					preStmt.setString(5,Data.getServiceItem());
+					int iPrice=Integer.parseInt(Data.getSalePrice());
+					preStmt.setInt(6,iPrice);
+					preStmt.setString(7,Data.getCreateDate());
+					preStmt.setString(8,Data.getMemo());
+					preStmt.executeUpdate();
+					qryRs.close();
+					qryStmt.close();
+					preStmt.close();
+					mod.addAttribute("result", "success");
+				
+				
 			}
-			finally {				
-				mod.addAttribute("result", "error");
+			catch(Exception e)
+			{
+				SQL="insert into errorlog (  e_FormPostion , "
+												+ " e_ErrorMessage, "
+												+ "	e_Date )"
+												+ " values (?,?,?)";
+				try {
+
+					Connection con =datasource.getConnection();
+					PreparedStatement Stmt=con.prepareStatement(SQL);
+					//類別名稱+方法名稱
+					Stmt.setString(1,this.getClass().getName()+"."+Thread.currentThread().getStackTrace()[1].getMethodName() );
+					//例外的完整訊息(包含例外種類)
+					Stmt.setString(2,e.toString());
+					//當下日期(yyyy-mm-dd hh:mm:ss)
+					Stmt.setString(3,DateTime.substring(0, 10)+" "+DateTime.substring(11, 19));
+					Stmt.executeUpdate();
+					con.close();
+					Stmt.close();
+				}catch(Exception ex) {
+					System.out.println(ex);
+				}
+				finally {				
+					mod.addAttribute("result", "error");
+				}
 			}
-		}
 		
+		}
+		else {
+			mod.addAttribute("result", "error");
+		}
 		return "checkForm";
 	}
 	
@@ -165,8 +170,4 @@ public class MicrobladingController {
 		return "orderForm";
 	}
 	
-	public String toString()
-    {
-        return getClass().getName();
-    }
 }
