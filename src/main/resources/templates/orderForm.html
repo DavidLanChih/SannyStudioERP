@@ -15,6 +15,14 @@
 	<script th:inline="javascript">
 		var result = /*[[${Data}]]*/ ''
 	</script>
+	<style>
+		p.contact-company{
+			font-size:1.6em;
+		}
+		.contact-company{
+			font-size:1.3em;
+		}
+	</style>
 </head>
 
 <body class="is-preload">
@@ -125,28 +133,28 @@
 						<h2>Menu</h2>
 					</header>
 					<ul>
-						<li><a th:href="@{/home}">主畫面</a></li>
+						<!-- <li><a th:href="@{/home}">主畫面</a></li> -->
 						<li>
 							<span class="opener">銷售系統</span>
 							<ul>
-								<li><a th:href="@{/test}">客戶基本資料建檔</a></li>
-								<li><a th:href="@{/}">紋繡銷售建檔</a></li>
-								<li><a th:href="@{/}">護膚銷售建檔</a></li>
+								<!-- <li><a th:href="@{/}">客戶基本資料建檔</a></li> -->
+								<li><a th:href="@{../Microblading/OrderForm}">紋繡銷售建檔</a></li>
+								<!-- <li><a th:href="@{/}">護膚銷售建檔</a></li> -->
 							</ul>
 						</li>
 						<li>
 							<span class="opener">業績查詢系統</span>
 							<ul>
-								<li><a th:href="@{/}">本月紋繡業績查詢</a></li>
-								<li><a th:href="@{/}">本月護膚業績查詢</a></li>
+								<!-- <li><a th:href="@{/}">本月紋繡業績查詢</a></li>
+								<li><a th:href="@{/}">本月護膚業績查詢</a></li> -->
 							</ul>
 						</li>
 						<li>
 							<span class="opener">進貨成本庫存系統</span>
 							<ul>
-								<li><a th:href="@{/}">商品名建檔</a></li>
+								<!-- <li><a th:href="@{/}">商品名建檔</a></li>
 								<li><a th:href="@{/}">每次進貨花費建檔</a></li>
-								<li><a th:href="@{/}">目前庫存查詢</a></li>
+								<li><a th:href="@{/}">目前庫存查詢</a></li> -->
 							</ul>
 						</li>
 					</ul>
@@ -159,10 +167,10 @@
 					<header class="major">
 						<h2>Get in touch</h2>
 					</header>
-					<p>有任何問題可來電洽詢</p>
+					<p class="contact-company">有任何問題歡迎來電諮詢</p>
 					<ul class="contact">
-						<li class="icon solid fa-home">DavidLan</li>
-						<li class="icon solid fa-phone">0975-787-062</li>
+						<li class="icon solid fa-home contact-company">DavidLan</li>
+						<li class="icon solid fa-phone contact-company">0975-787-062</li>
 					</ul>
 				</section>
 
