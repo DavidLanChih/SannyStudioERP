@@ -28,7 +28,7 @@ import com.bean.MicrobladingOrder;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/Microblading")
+@RequestMapping("/ERP/Microblading") //最前面要加入專案名稱
 public class MicrobladingController {
 	@Autowired // 將下行HttpServletRequest物件注入至方法
 	private HttpServletRequest request;
