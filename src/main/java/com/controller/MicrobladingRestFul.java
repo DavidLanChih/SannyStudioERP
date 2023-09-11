@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bean.MicrobladingOrder;
+import com.bean.CustomerOrder;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -36,7 +36,7 @@ public class MicrobladingRestFul {
 	@Value("${application.service.MicroUrl}")
 	private String MicroURL;
 	@PutMapping(path="/OrderForm/Put", produces = "application/json",consumes = "application/json")
-	public MicrobladingOrder insertForm(@RequestBody()MicrobladingOrder Data,Model model) {
+	public CustomerOrder insertForm(@RequestBody()CustomerOrder Data,Model model) {
 		
 //		try(Connection con = datasource.getConnection();)
 //		{	

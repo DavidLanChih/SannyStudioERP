@@ -6,7 +6,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 
-public class MicrobladingOrder implements java.io.Serializable{
+public class CustomerOrder implements java.io.Serializable{
 	private String name;
 	private String sex;
 	private String phone;

@@ -3,7 +3,7 @@
 <html>
 
 <head>
-	<title>客戶每次紋繡建檔</title>
+	<title>客戶消費紀錄</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" th:href="@{/assets/css/main.css}" />
@@ -13,7 +13,7 @@
     <script th:src="@{/js/axios.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script th:inline="javascript">
-		var result = /*[[${Data}]]*/ ''
+		var queryURL = /*[[${query}]]*/ ''
 	</script>
 	<style>
 		p.contact-company{
@@ -35,77 +35,34 @@
 			<div class="inner">
 				<div class="formbold-main-wrapper">
 					<div class="formbold-form-wrapper" id="myForm">
-						
-						<form action="" method="POST"  onsubmit="send(event)">
-							<div class="formbold-mb-3">
-								<label for="name" class="formbold-form-label"> 客戶姓名 </label>
-								<input list="name" name="name" id="name" placeholder="請輸入姓名" class="formbold-form-input"/>
-								<datalist >
-									<option value="藍智"></option>
-									<option value="劉姍霓"></option>
-								</datalist>
-							</div>
-							<div class="formbold-mb-3">
-								<label for="sex" class="formbold-form-label">性別</label>
-								<select class="formbold-form-input" name="sex" id="sex">
-								  <option value="" selected>請選擇性別</option>
-								  <option value="male">男性</option>
-								  <option value="female">女性</option>
-								</select>
-							</div>
-							<div class="formbold-mb-3 ">
-								<label for="phone" class="formbold-form-label"> 客戶電話 </label>
-								<input
-									type="text"
-									name="phone"
-									id="phone"
-									placeholder="請輸入手機電話"
-									class="formbold-form-input"
-									maxlength="10"
-									onkeyup="this.value=this.value.replace(/[^\d]/g,'')"
-								/>	
-								
-							</div>
-							
-							<div class="formbold-input-group">
-								<label for="serviceItem" class="formbold-form-label"> 服務項目 </label>
-	
-								<select class="formbold-form-input" id="serviceItem" name="serviceItem" placeholder="Enter your service">
-									<option value="" selected>請選擇服務項目</option>
-									<option value="m001">單項<眉></option>
-									<option value="m002">單項<唇></option>
-									<option value="m003">單項<眼></option>
-									<option value="m004">套組<眉+唇></option>
-									<option value="m005">套組<眉+唇+眼></option>
-								</select>
-							</div>
-							<div class="formbold-mb-3 ">
-								<label for="salePrice" class="formbold-form-label"> 銷售金額 </label>
-								<input
-									type="text"
-									name="salePrice"
-									id="salePrice"
-									placeholder="請輸入實際銷售金額"
-									class="formbold-form-input"
-									maxlength="9"
-									onkeyup="this.value=this.value.replace(/[^\d]/g,'')"
-								/>	
-							</div>
-							<div class="formbold-mb-3">
-								<label for="createDate" class="formbold-form-label"> 施作日期 </label>
-								<input type="date" name="createDate" id="createDate" class="formbold-form-input" />
-							</div>
-	
-							<div>
-								<label for="memo" class="formbold-form-label">
-									備註說明<span style="color:red; font-size:12px;"> (可不填)</span>
-								</label>
-								<textarea rows="6" name="memo" id="memo" placeholder="請輸入備註..."
-									class="formbold-form-input"></textarea>
-							</div>
-	
-							<button class="formbold-btn" type="sumbit" v-on:click="queryHandler">送出資料</button>
-						</form>
+						<div>客戶查詢</div>
+                        <div>
+                            <!--使用Vue 指令 借助v-model 雙向two-ways attribute-->
+                            <input type="text" v-model:value="name"/>
+                            <button v-on:click="queryHandler" style="color:blueviolet;font-size: 18px;">查詢</button>
+                        </div>
+                        <fieldset v-show="isShow">
+                            <legend>{{name}} 客戶清單</legend>
+                            <div>記錄數:{{result.length}}</div>
+                            <table class="tableStyle">
+                                <thead>
+                                    <tr>
+                                        <td>日期</td>
+                                        <td>服務內容</td>
+                                        <td>售價</td>
+                                           
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                    <tr v-for="item,index in result">
+                                        
+                                        <td>{{item.createDate}}</td>
+                                        <td>{{item.serviceItem}}</td>
+                                        <td>{{item.salePrice}}</td>
+                                    </tr>    
+                                </tbody>
+                            </table>
+                        </fieldset>
 					</div>
 				</div>
 
@@ -193,38 +150,53 @@
 		});
 	</script>
 
-	<!-- <script>
+	<script>
         //1.建構一個Vue Instance物件
         var app=new Vue(
-			{
+			{   
+                data:{
+                    name:name,
+                    //呼喚後端服務回應的JSON Array
+                    result:[], //查詢結果
+                    message:'',
+                    isShow:false
+                      //挑選的相對列物件
+                },
 				methods:
 				{
-            		queryHandler:function()
-            		{
-						$.ajax({
-							url:"http://localhost/Microblading/OrderForm/Put",
-							type:'PUT',
-							beforeSend:function(xhr){
-                                                        //加入header
-                                                        xhr.setRequestHeader("Content-Type","application/json");
-                                                    },
-							success:
-								function(){
-									alert("OK");
-								},
-							error:
-								function(){
-									alert("Bad");
-								}
-							});
-					}
+            		queryHandler:function(){
+                        //reset
+                        this.isShow=false;
+                        this.message='';
+                        let urlString=queryURL+this.name;
+                        //Request Method-GET
+                        axios.get(urlString)
+                        //http status 2xx 
+                        .then(res => {
+                            console.log(res)
+                            //將回呼查詢結果
+                            this.result=res.data;
+                            this.isShow=true;
+                        })
+                        //4xx or 5xx
+                        .catch(err => {
+                            console.log(err); 
+                            //判斷
+                            console.log(err.response);
+                            if(err.response.status==400){
+                                this.message=err.response.data.msg;
+                            }
+                        })
+                        
+                    }
 					
 					
                 }
+                
 			});
 		app.$mount('#myForm');
 			
-	</script> -->
+	</script>
 	<script th:src="@{/assets/js/jquery.min.js}"></script>
 	<script th:src="@{/assets/js/browser.min.js}"></script>
 	<script th:src="@{/assets/js/breakpoints.min.js}"></script>

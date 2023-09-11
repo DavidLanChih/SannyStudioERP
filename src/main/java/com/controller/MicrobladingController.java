@@ -23,21 +23,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bean.MicrobladingOrder;
+import com.bean.CustomerOrder;
+import com.bean.NowLocalDateTime;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/Microblading")
 public class MicrobladingController {
-	@Autowired // 將下行HttpServletRequest物件注入至方法
-	private HttpServletRequest request;
 
 	@Autowired
 	private DataSource datasource; // 使用預設spring.datasource(application.properties自己設定內)
 
-	String formatDateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME);
-	String nowDateTime = formatDateTime.substring(0, 10)+" "+formatDateTime.substring(11, 19);
 	String SQL = "";	
 	// 一般表格送出(若需要邊調閱資料庫，邊改寫資料，最後再送出者才用restful)
 	// @RequestMapping(path = "/CreateForm", method = { RequestMethod.GET,
@@ -69,7 +66,7 @@ public class MicrobladingController {
 	// }
 
 	@PostMapping("/OrderForm") // 表單送出時會使用此方法
-	public String postForm(MicrobladingOrder Data, Model mod) {
+	public String postForm(CustomerOrder Data, Model mod) {
 		
 		// System.out.println("Name: " + Data.getName() +
 		// 		" Sex: "   + Data.getSex() +
@@ -143,7 +140,7 @@ public class MicrobladingController {
 					//例外的完整訊息(包含例外種類)
 					Stmt.setString(2,e.toString());
 					//當下日期(yyyy-mm-dd hh:mm:ss)
-					Stmt.setString(3,nowDateTime);
+					Stmt.setString(3,NowLocalDateTime.nowDateTime);
 					Stmt.executeUpdate();
 					con.close();
 					Stmt.close();
@@ -166,7 +163,7 @@ public class MicrobladingController {
 
 	@GetMapping("/OrderForm") // 一開始登入表單時走此方法
 	public String loginForm() {
-		System.out.println("loginForm: (GET) "+nowDateTime);
+		System.out.println("loginForm: (GET) "+NowLocalDateTime.nowDateTime);
 		return "orderForm";
 	}
 	
