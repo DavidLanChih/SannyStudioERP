@@ -54,7 +54,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="tbody">
-                                    <tr v-for="item,index in result">
+                                    <tr v-for="item in result">
                                         
                                         <td>{{item.createDate}}</td>
                                         <td>{{item.serviceItem}}</td>
@@ -143,12 +143,7 @@
 	</div>
 
 	<!-- Scripts -->
-	<script>
-		$("button").click(function(){
-		
-			
-		});
-	</script>
+	
 
 	<script>
         //1.建構一個Vue Instance物件

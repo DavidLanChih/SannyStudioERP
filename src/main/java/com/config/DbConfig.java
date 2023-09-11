@@ -34,7 +34,7 @@ public class DbConfig {
 	@Bean
 	@Qualifier("sannystudioJDBC")
 	public JdbcTemplate createNorthwindJdbcTemplate(@Qualifier("sannystudio")DataSource datasource) {
-		System.out.println("northwind Spring JdbcTemplate產生了..."+datasource);
+		System.out.println("JdbcTemplate產生了..."+datasource);
 		//建構一個個體物件
 		JdbcTemplate jdbc=new JdbcTemplate();
 		//與DataSource 連接工廠物件互動
