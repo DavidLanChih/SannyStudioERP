@@ -47,6 +47,7 @@ public class CustomerOrderRestful {
 			}else {
 				response=ResponseEntity.ok(result);
 				System.out.println(result.iterator().next().getPhone());
+				System.out.println(result.size());
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

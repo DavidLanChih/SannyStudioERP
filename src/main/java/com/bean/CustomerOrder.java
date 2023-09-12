@@ -1,10 +1,5 @@
 package com.bean;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@AllArgsConstructor
-@Data
 
 public class CustomerOrder implements java.io.Serializable{
 	private String name;
