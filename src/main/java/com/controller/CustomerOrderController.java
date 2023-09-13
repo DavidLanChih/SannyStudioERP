@@ -9,7 +9,7 @@ public class CustomerOrderController {
 	@GetMapping(path="/Customer/Order")
 	public String CustomerOrderQry(Model model) {
 		//將url位置搜尋到的資料渲染到前端
-		model.addAttribute("query","http://localhost/Service/Customer/Order?name=");
+		model.addAttribute("query","../../Service/Customer/Order/");
 		return "CustomerOrderqry";
 	}
 }

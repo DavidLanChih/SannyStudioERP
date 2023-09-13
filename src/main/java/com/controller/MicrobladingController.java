@@ -102,21 +102,23 @@ public class MicrobladingController {
 											+ "s003_Name,"
 											+ "s003_Sex,"
 											+ "s003_Phone,"
+											+ "s003_BirthDate,"
 											+ "s003_ServiceItem,"
 											+ "s003_SalePrice,"
 											+ "s003_CreateDate,"
 											+ "s003_Memo) "
-											+ "values (?,?,?,?,?,?,?,?)";
+											+ "values (?,?,?,?,?,?,?,?,?)";
 					PreparedStatement preStmt=con.prepareStatement(SQL);
 					preStmt.setInt(1,billno);
 					preStmt.setString(2,Data.getName());
 					preStmt.setString(3,Data.getSex());
 					preStmt.setString(4,Data.getPhone());
-					preStmt.setString(5,Data.getServiceItem());
+					preStmt.setString(5,Data.getBirthDate());
+					preStmt.setString(6,Data.getServiceItem());
 					int iPrice=Integer.parseInt(Data.getSalePrice());
-					preStmt.setInt(6,iPrice);
-					preStmt.setString(7,Data.getCreateDate());
-					preStmt.setString(8,Data.getMemo());
+					preStmt.setInt(7,iPrice);
+					preStmt.setString(8,Data.getCreateDate());
+					preStmt.setString(9,Data.getMemo());
 					preStmt.executeUpdate();
 					qryRs.close();
 					qryStmt.close();

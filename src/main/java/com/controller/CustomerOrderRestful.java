@@ -10,10 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.bean.CustomerOrder;
+import com.bean.Customer;
 import com.bean.NowLocalDateTime;
 
 @RestController
@@ -25,29 +26,25 @@ public class CustomerOrderRestful {
 	@Autowired
 	@Qualifier("sannystudioJDBC")
 	private JdbcTemplate jdbcTemplate;
-	@GetMapping(path="/Order",produces= {"application/json"})
-	public ResponseEntity<Object> CustomerQry(@RequestParam("name")String name) {
-		
-		List<CustomerOrder> result = null;
-		ResponseEntity<Object> response = null;
+	@GetMapping(path="/Order/{name}",produces= {"application/json"})
+	public ResponseEntity CustomerQry(@PathVariable("name") String name) {
+		List<Customer> result = null;
+		BeanPropertyRowMapper<Customer> rm=BeanPropertyRowMapper.newInstance(Customer.class);
+		ResponseEntity response = null;
+		String sql = "select s003_serviceItem from sal003 where s003_name = ?";
 		try {
-			var mapper = BeanPropertyRowMapper.newInstance(CustomerOrder.class);
-			result = jdbcTemplate.query("select  s003_name"
-											+ ", s003_sex"
-											+ ", s003_phone"
-											+ ", s003_serviceItem"
-											+ ", s003_salePrice"
-											+ ", s003_createDate"
-											+ ", s003_memo from sal003" 
-											+ " where s003_name=?",
-											mapper, 
-											new Object[] {name});
+			//var mapper = BeanPropertyRowMapper.newInstance(Customer.class);
+			 result = jdbcTemplate.query(sql,
+					rm, 
+					new Object[]{name});
+			//result =jdbcTemplate.queryForList("select s003_serviceItem from sal003 where s003_name = ?", new Object[]{name}, mapper);
 			if(result.size()==0) {
 				response=ResponseEntity.badRequest().body("查無 "+name+" 客戶資料");
 			}else {
 				response=ResponseEntity.ok(result);
-				System.out.println(result.iterator().next().getPhone());
+				System.out.println(result.iterator().next().getServiceItem());
 				System.out.println(result.size());
+				System.out.println(name);
 			}
 		} catch (Exception e) {
 			// TODO: handle exception

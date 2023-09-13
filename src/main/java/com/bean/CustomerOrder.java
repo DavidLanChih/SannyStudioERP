@@ -5,6 +5,7 @@ public class CustomerOrder implements java.io.Serializable{
 	private String name;
 	private String sex;
 	private String phone;
+	private String birthDate;
 	private String serviceItem;
 	private String salePrice;
 	private String createDate;
@@ -26,6 +27,12 @@ public class CustomerOrder implements java.io.Serializable{
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public String getBirthDate() {
+		return birthDate;
+	}
+	public void setBirthDate(String birthDate) {
+		this.birthDate = birthDate;
 	}
 	public String getServiceItem() {
 		return serviceItem;
