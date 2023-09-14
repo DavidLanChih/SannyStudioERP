@@ -82,7 +82,6 @@ public class MicrobladingController {
 			Data.getSalePrice().length()   !=0 &&
 			Data.getCreateDate().length()  !=0    ) 
 		{
-
 			try(Connection con = datasource.getConnection();)
 			{	
 				
@@ -98,27 +97,52 @@ public class MicrobladingController {
 						billno++;
 					}
 					//匯入資料
-					SQL="insert into sal003 ( s003_Billno,"
-											+ "s003_Name,"
-											+ "s003_Sex,"
-											+ "s003_Phone,"
-											+ "s003_BirthDate,"
-											+ "s003_ServiceItem,"
-											+ "s003_SalePrice,"
-											+ "s003_CreateDate,"
-											+ "s003_Memo) "
-											+ "values (?,?,?,?,?,?,?,?,?)";
-					PreparedStatement preStmt=con.prepareStatement(SQL);
+					PreparedStatement preStmt=null;
+					if(Data.getBirthDate().length()!=0) 
+					{
+						SQL="insert into sal003 ( s003_Billno,"
+												+ "s003_Name,"
+												+ "s003_Sex,"
+												+ "s003_Phone,"
+												+ "s003_BirthDate,"
+												+ "s003_ServiceItem,"
+												+ "s003_SalePrice,"
+												+ "s003_CreateDate,"
+												+ "s003_Memo) "
+												+ "values (?,?,?,?,?,?,?,?,?)";
+						preStmt=con.prepareStatement(SQL);
+						preStmt.setInt(1,billno);
+						preStmt.setString(2,Data.getName());
+						preStmt.setString(3,Data.getSex());
+						preStmt.setString(4,Data.getPhone());
+						preStmt.setString(5,Data.getBirthDate());
+						preStmt.setString(6,Data.getServiceItem());
+						int iPrice=Integer.parseInt(Data.getSalePrice());
+						preStmt.setInt(7,iPrice);
+						preStmt.setString(8,Data.getCreateDate());
+						preStmt.setString(9,Data.getMemo());	
+					}else {
+						SQL="insert into sal003 ( s003_Billno,"
+												+ "s003_Name,"
+												+ "s003_Sex,"
+												+ "s003_Phone,"
+												+ "s003_ServiceItem,"
+												+ "s003_SalePrice,"
+												+ "s003_CreateDate,"
+												+ "s003_Memo) "
+												+ "values (?,?,?,?,?,?,?,?)";
+					preStmt=con.prepareStatement(SQL);
 					preStmt.setInt(1,billno);
 					preStmt.setString(2,Data.getName());
 					preStmt.setString(3,Data.getSex());
 					preStmt.setString(4,Data.getPhone());
-					preStmt.setString(5,Data.getBirthDate());
-					preStmt.setString(6,Data.getServiceItem());
+					preStmt.setString(5,Data.getServiceItem());
 					int iPrice=Integer.parseInt(Data.getSalePrice());
-					preStmt.setInt(7,iPrice);
-					preStmt.setString(8,Data.getCreateDate());
-					preStmt.setString(9,Data.getMemo());
+					preStmt.setInt(6,iPrice);
+					preStmt.setString(7,Data.getCreateDate());
+					preStmt.setString(8,Data.getMemo());
+							
+			}
 					preStmt.executeUpdate();
 					qryRs.close();
 					qryStmt.close();
@@ -130,9 +154,9 @@ public class MicrobladingController {
 			catch(Exception e)
 			{
 				SQL="insert into errorlog (  e_FormPostion , "
-												+ " e_ErrorMessage, "
-												+ "	e_Date )"
-												+ " values (?,?,?)";
+										+ "  e_ErrorMessage, "
+										+ "	 e_Date )"
+										+ "  values (?,?,?)";
 				try {
 
 					Connection con =datasource.getConnection();
