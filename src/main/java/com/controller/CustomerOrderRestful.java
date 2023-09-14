@@ -58,8 +58,8 @@ public class CustomerOrderRestful {
 			// 依照日期排序
 			result.sort((CustomerOrder a, CustomerOrder b) -> (a.getCreateDate().compareTo(b.getCreateDate())));
 			response = ResponseEntity.ok(result);
-			System.out.println("記錄數:" + result.size());
-			System.out.println(result.iterator().next().getServiceItem());
+//			System.out.println("記錄數:" + result.size());
+//			System.out.println(result.iterator().next().getServiceItem());
 			// 關閉連接
 			rs.close();
 			st.close();
