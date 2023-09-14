@@ -35,15 +35,18 @@
 			<div class="inner">
 				<div class="formbold-main-wrapper">
 					<div class="formbold-form-wrapper" id="myForm">
-						<div>客戶查詢</div>
+						<div class="formbold-form-label">客戶查詢</div>
+						<p></p>
                         <div>
                             <select name="customerName" id="customerName" v-model:value="name">
 								<option th:each="customer : ${name} " th:value="${customer}" th:text="${customer}" ></option>
 							</select>
+							<p></p>
                             <button v-on:click="queryHandler" style="color:blueviolet;font-size: 18px;">查詢</button>
                         </div>
+						<p></p>
                         <fieldset v-show="isShow">
-                            <legend>客戶: {{name}}</legend>
+                            <legend >客戶: {{name}}</legend>
                             <div>筆數: {{result.length}}</div>
                             <table class="tableStyle">
                                 <thead>
