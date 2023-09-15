@@ -14,6 +14,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script th:inline="javascript">
 		var result = /*[[${Data}]]*/ ''
+		var t_product = /*[[${product}]]*/ ''
+		var t_customer = /*[[${customerList}]]*/ ''
 	</script>
 	<style>
 		p.contact-company{
@@ -75,13 +77,14 @@
 	
 								<select class="formbold-form-input" id="serviceItem" name="serviceItem" placeholder="Enter your service">
 									<option value="" selected>請選擇服務項目</option>
-									<option value="m001">單項<眉></option>
+									<!-- <option value="m001">單項<眉></option>
 									<option value="m002">單項<唇></option>
 									<option value="m003">單項<眼></option>
 									<option value="m004">套組<眉+唇></option>
 									<option value="m005">套組<眉+唇+眼></option>
 									<option value="m006">套組<眉+眼></option>
-									<option value="m007">套組<除色+眉></option>
+									<option value="m007">套組<除色+眉></option> -->
+									<option v-for="pro in t_product" :value=pro.code >{{pro.name}}</option>
 								</select>
 							</div>
 							<div class="formbold-mb-3 ">
@@ -109,7 +112,7 @@
 									class="formbold-form-input"></textarea>
 							</div>
 	
-							<button class="formbold-btn" type="sumbit" v-on:click="queryHandler">送出資料</button>
+							<button class="formbold-btn" type="sumbit" >送出資料</button>
 						</form>
 					</div>
 				</div>
@@ -192,10 +195,10 @@
 
 	<!-- Scripts -->
 	<script>
-		$("button").click(function(){
-		
+		var app = new Vue(
 			
-		});
+		)
+		app.$mount("#myForm");
 	</script>
 
 	<!-- <script>
