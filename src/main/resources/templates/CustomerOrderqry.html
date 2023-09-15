@@ -13,7 +13,8 @@
     <script th:src="@{/js/axios.min.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script th:inline="javascript">
-		var queryURL = /*[[${query}]]*/ ''
+		var t_queryURL = /*[[${query}]]*/ ''
+		var t_customerName = /*[[${name}]]*/ ''
 	</script>
 	<style>
 		p.contact-company{
@@ -37,16 +38,19 @@
 					<div class="formbold-form-wrapper" id="myForm">
 						<div class="formbold-form-label">客戶查詢</div>
 						<p></p>
-                        <div>
-                            <select name="customerName" id="customerName" v-model:value="name">
-								<option th:each="customer : ${name} " th:value="${customer}" th:text="${customer}" ></option>
+                        <div class="formbold-mb-3">
+							<select name="customerName" id="customerName" 
+								class="formbold-form-input" v-model="name" >
+								<option value="" selected>請選擇客戶</option>
+								<!-- <option th:each="customer : ${name} " th:value="${customer[0]}" th:text="${customer[1]}" ></option> -->
+								<option v-for="NameList in t_customerName" :value="NameList[0]">{{NameList[1]}}</option>
 							</select>
-							<p></p>
-                            <button v-on:click="queryHandler" style="color:blueviolet;font-size: 18px;">查詢</button>
-                        </div>
-						<p></p>
+							<button class="formbold-btn" type="sumbit" v-on:click="queryHandler" >查詢</button>
+						</div>
+                        <p></p>
                         <fieldset v-show="isShow">
-                            <legend >客戶: {{name}}</legend>
+							<div class="formbold-form-input">
+                            <legend >客戶: {{t_name}}</legend>
                             <div>筆數: {{result.length}}</div>
                             <table class="tableStyle">
                                 <thead>
@@ -68,6 +72,7 @@
                                     </tr>    
                                 </tbody>
                             </table>
+						</div>
                         </fieldset>
 					</div>
 				</div>
@@ -156,11 +161,12 @@
         var app=new Vue(
 			{   
                 data:{
-                    name:name,
+					name:name,
                     //呼喚後端服務回應的JSON Array
                     result:[], //查詢結果
                     message:'',
-                    isShow:false
+                    isShow:false,
+					t_name:""
                       //挑選的相對列物件
                 },
 				methods:
@@ -169,8 +175,9 @@
                         //reset
                         this.isShow=false;
                         this.message='';
-                        let urlString=queryURL+this.name;
-                        //Request Method-GET
+						this.t_name=$("#customerName option:selected").text(); //用jQuery抓到option text後傳進Vue
+						let urlString=t_queryURL+this.name;
+						//Request Method-GET
                         axios.get(urlString)
                         //http status 2xx 
                         .then(res => {

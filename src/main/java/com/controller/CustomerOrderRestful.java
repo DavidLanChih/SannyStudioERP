@@ -42,14 +42,20 @@ public class CustomerOrderRestful {
 		ResponseEntity response = null;
 		try {
 			connection = datasource.getConnection();
-			String sql = "select * from sal003 where s003_name = ?";
+			String sql = "select a.m002_Name, b.* ,c.i001_Name"
+					   + "  from man002 as a "
+					   + " inner join sal003 as b "
+					   + "    on a.m002_No = b.s003_NameNo "
+					   + " inner join inv001 as c"
+					   + "    on b.s003_ServiceItem = c.i001_Code"
+					   + " where b.s003_NameNo = ?";
 			PreparedStatement st = connection.prepareStatement(sql);
 			st.setString(1, name);
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				CustomerOrder customer = new CustomerOrder();
-				customer.setName(rs.getString("s003_Name"));
-				customer.setServiceItem(rs.getString("s003_ServiceItem"));
+				customer.setName(rs.getString("s003_NameNo"));
+				customer.setServiceItem(rs.getString("i001_Name"));
 				customer.setSalePrice(rs.getString("s003_SalePrice"));
 				customer.setCreateDate(rs.getString("s003_CreateDate"));
 				customer.setMemo(rs.getString("s003_Memo"));
@@ -67,7 +73,7 @@ public class CustomerOrderRestful {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			System.out.println("連接資料錯誤....");
+			System.out.println(e);
 		}
 
 		return response;
