@@ -36,7 +36,7 @@
 			<div class="inner">
 				<div class="formbold-main-wrapper">
 					<div class="formbold-form-wrapper" id="myForm">
-						<label for="customer" class="formbold-form-label">客戶查詢</label>
+						<div class="formbold-form-label" style="font-weight: 600;">客戶查詢</div>
 						<p></p>
                         <div class="formbold-mb-3">
 							<select name="customerName" id="customerName" 
@@ -53,21 +53,21 @@
                             <legend >客戶: {{t_name}}</legend>
                             <div>筆數: {{result.length}}</div>
                             <table class="tableStyle">
-                                <thead>
+								<thead Style="text-align:center; font-size:0.8em; font-weight: 1000;">
                                     <tr>
-                                        <td>日期</td>
-                                        <td>服務內容</td>
-                                        <td>售價</td>
-                                        <td>備註</td>
+                                        <td style="width: 10%;">日期</td>
+                                        <td style="width: 30%;">服務</td>
+                                        <td style="width: 15%;">售價</td>
+                                        <td style="width: 45%;">備註</td>
                                            
                                     </tr>
                                 </thead>
-                                <tbody id="tbody">
+                                <tbody id="tbody" Style="font-size:0.8em;">
                                     <tr v-for="item in result">
                                         
                                         <td>{{item.createDate}}</td>
                                         <td>{{item.serviceItem}}</td>
-                                        <td>{{item.salePrice}}</td>
+                                        <td align="right">{{item.salePrice}}</td>
                                         <td>{{item.memo}}</td>
                                     </tr>    
                                 </tbody>
@@ -176,7 +176,8 @@
                         this.isShow=false;
                         this.message='';
 						this.t_name=$("#customerName option:selected").text(); //用jQuery抓到option text後傳進Vue
-						let urlString=t_queryURL+this.name;
+						//let urlString=t_queryURL+this.name;
+						let urlString="http://sanny-studio.com/ERP/Service/Customer/Order/"+this.name;
 						//Request Method-GET
                         axios.get(urlString)
                         //http status 2xx 
