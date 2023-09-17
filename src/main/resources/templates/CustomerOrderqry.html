@@ -23,6 +23,12 @@
 		.contact-company{
 			font-size:1.3em;
 		}
+		.tr{
+			border-color: #ffffff;
+		}
+		.tr:first-child{
+			background-color: #dddddd;
+		}
 	</style>
 </head>
 
@@ -53,23 +59,27 @@
                             <legend >客戶: {{t_name}}</legend>
                             <div>筆數: {{result.length}}</div>
                             <table class="tableStyle">
-								<thead Style="text-align:center; font-size:0.8em; font-weight: 1000;">
-                                    <tr>
+								<!-- <thead Style="text-align:center; font-size:0.8em; font-weight: 1000;">
+                                    <tr >
                                         <td style="width: 10%;">日期</td>
                                         <td style="width: 30%;">服務</td>
                                         <td style="width: 15%;">售價</td>
                                         <td style="width: 45%;">備註</td>
                                            
                                     </tr>
-                                </thead>
-                                <tbody id="tbody" Style="font-size:0.8em;">
-                                    <tr v-for="item in result">
+                                </thead> -->
+                                <tbody v-for="item in result"  Style="font-size:0.8em;">
+                                    <!-- <tr v-for="item in result">
                                         
                                         <td>{{item.createDate}}</td>
                                         <td>{{item.serviceItem}}</td>
                                         <td align="right">{{item.salePrice}}</td>
                                         <td>{{item.memo}}</td>
-                                    </tr>    
+                                    </tr>     -->
+									<tr class="tr"><td>日期</td><td>{{item.createDate}}</td></tr>
+									<tr class="tr"><td>服務</td><td>{{item.serviceItem}}</td></tr>
+									<tr class="tr" style="background-color: #ffffff ; "><td>售價</td><td>{{item.salePrice}}</td></tr>
+									<tr class="tr"><td>備註</td><td>{{item.memo}}</td></tr>
                                 </tbody>
                             </table>
 						</div>
@@ -176,8 +186,8 @@
                         this.isShow=false;
                         this.message='';
 						this.t_name=$("#customerName option:selected").text(); //用jQuery抓到option text後傳進Vue
-						//let urlString=t_queryURL+this.name;
-						let urlString="http://sanny-studio.com/ERP/Service/Customer/Order/"+this.name;
+						let urlString=t_queryURL+this.name;
+						//let urlString="http://sanny-studio.com/ERP/Service/Customer/Order/"+this.name;
 						//Request Method-GET
                         axios.get(urlString)
                         //http status 2xx 
