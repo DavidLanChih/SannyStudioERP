@@ -27,7 +27,7 @@
 			border-color: #ffffff;
 		}
 		.tr:first-child{
-			background-color: #dddddd;
+			background-color: #eeeeee;
 		}
 	</style>
 </head>
@@ -76,7 +76,7 @@
                                         <td align="right">{{item.salePrice}}</td>
                                         <td>{{item.memo}}</td>
                                     </tr>     -->
-									<tr class="tr"><td>日期</td><td>{{item.createDate}}</td></tr>
+									<tr class="tr"><td style="width: 20%;">日期</td><td style="width: 80%;">{{item.createDate}}</td></tr>
 									<tr class="tr"><td>服務</td><td>{{item.serviceItem}}</td></tr>
 									<tr class="tr" style="background-color: #ffffff ; "><td>售價</td><td>{{item.salePrice}}</td></tr>
 									<tr class="tr"><td>備註</td><td>{{item.memo}}</td></tr>
@@ -186,8 +186,8 @@
                         this.isShow=false;
                         this.message='';
 						this.t_name=$("#customerName option:selected").text(); //用jQuery抓到option text後傳進Vue
-						let urlString=t_queryURL+this.name;
-						//let urlString="http://sanny-studio.com/ERP/Service/Customer/Order/"+this.name;
+						//let urlString=t_queryURL+this.name;
+						let urlString="http://sanny-studio.com/ERP/Service/Customer/Order/"+this.name;
 						//Request Method-GET
                         axios.get(urlString)
                         //http status 2xx 
