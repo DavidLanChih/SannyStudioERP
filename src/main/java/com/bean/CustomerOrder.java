@@ -2,6 +2,7 @@ package com.bean;
 
 
 public class CustomerOrder implements java.io.Serializable{
+	private String billno;
 	private String name;
 	private String sex;
 	private String phone;
@@ -10,6 +11,12 @@ public class CustomerOrder implements java.io.Serializable{
 	private String salePrice;
 	private String createDate;
 	private String memo;
+	public String getBillno() {
+		return billno;
+	}
+	public void setBillno(String billno) {
+		this.billno = billno;
+	}
 	public String getName() {
 		return name;
 	}

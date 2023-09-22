@@ -8,50 +8,58 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" th:href="@{/assets/css/main.css}" />
 	<link rel="stylesheet" th:href="@{/form/FormBold.css}" />
-	
+
 	<script th:src="@{/js/vue.min.js}"></script>
-    <script th:src="@{/js/axios.min.js}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script th:src="@{/js/axios.min.js}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script th:inline="javascript">
 		var t_queryURL = /*[[${query}]]*/ ''
 		var t_customerName = /*[[${name}]]*/ ''
 	</script>
 	<style>
-		p.contact-company{
-			font-size:1.6em;
+		p.contact-company {
+			font-size: 1.6em;
 		}
-		.contact-company{
-			font-size:1.3em;
+
+		.contact-company {
+			font-size: 1.3em;
 		}
-		.tr{
+
+		.tr {
 			border-color: #ffffff;
 		}
-		.tr:first-child{
+
+		.tr:first-child {
 			background-color: #eeeeee;
 		}
-		.tr-end{
+
+		.tr-end {
 			padding-bottom: 10px;
 		}
-		.tableStyle{
+
+		.tableStyle {
 			margin-top: 10px;
 		}
-		.itemTitle{
-			font-size:0.9em;
+
+		.itemTitle {
+			font-size: 0.9em;
 			font-weight: 600;
 			padding: 0em 0.3em;
 		}
+
 		/* tbody 已在css檔案內，會被覆蓋 */
-		.tb{
-			font-size:0.9em;
+		.tb {
+			font-size: 0.9em;
 		}
-		legend.itemTitle{
+
+		legend.itemTitle {
 			margin-top: 10px;
 		}
 	</style>
 </head>
 
 <body class="is-preload">
-	
+
 	<!-- Wrapper -->
 	<div id="wrapper">
 
@@ -62,22 +70,21 @@
 					<div class="formbold-form-wrapper" id="myForm">
 						<div class="formbold-form-label" style="font-weight: 600;">客戶查詢</div>
 						<p></p>
-                        <div class="formbold-mb-3">
-							<select name="customerName" id="customerName" 
-								class="formbold-form-input" v-model="name" >
+						<div class="formbold-mb-3">
+							<select name="customerName" id="customerName" class="formbold-form-input" v-model="name">
 								<option value="" selected>請選擇客戶</option>
 								<!-- <option th:each="customer : ${name} " th:value="${customer[0]}" th:text="${customer[1]}" ></option> -->
 								<option v-for="NameList in t_customerName" :value="NameList[0]">{{NameList[1]}}</option>
 							</select>
-							<button class="formbold-btn" type="sumbit" v-on:click="queryHandler" >查詢</button>
+							<button class="formbold-btn" type="sumbit" v-on:click="queryHandler">查詢</button>
 						</div>
-                        <p></p>
-                        <fieldset v-show="isShow">
+						<p></p>
+						<fieldset v-show="isShow">
 							<div class="formbold-form-input">
-                            <legend class="itemTitle">客戶：{{t_name}}</legend>
-                            <div class="itemTitle">筆數：{{result.length}}</div>
-                            <table class="tableStyle">
-								<!-- <thead Style="text-align:center; font-size:0.8em; font-weight: 1000;">
+								<legend class="itemTitle">客戶：{{t_name}}</legend>
+								<div class="itemTitle">筆數：{{result.length}}</div>
+								<table class="tableStyle">
+									<!-- <thead Style="text-align:center; font-size:0.8em; font-weight: 1000;">
                                     <tr >
                                         <td style="width: 10%;">日期</td>
                                         <td style="width: 30%;">服務</td>
@@ -86,30 +93,66 @@
                                            
                                     </tr>
                                 </thead> -->
-                                <tbody v-for="item in result" class="tb">
-                                    <!-- <tr v-for="item in result">
+									<tbody v-for="item in result" class="tb" id="tbody">
+										<!-- <tr v-for="item in result">
                                         
                                         <td>{{item.createDate}}</td>
                                         <td>{{item.serviceItem}}</td>
                                         <td align="right">{{item.salePrice}}</td>
                                         <td>{{item.memo}}</td>
                                     </tr>     -->
-									<tr class="tr"><td style="width: 20%;">日期</td><td style="width: 80%;">{{item.createDate}}</td></tr>
-									<tr class="tr"><td>服務</td><td>{{item.serviceItem}}</td></tr>
-									<tr class="tr" style="background-color: #ffffff ; "><td>售價</td><td>{{item.salePrice}}</td></tr>
-									<tr ><td class="tr-end">備註</td><td class="tr-end">{{item.memo}}</td></tr>
-                                </tbody>
-                            </table>
-						</div>
-                        </fieldset>
+										<tr class="tr">
+											<td style="width: 20%;">日期 </td>
+											<td style="width: 80%;">{{item.createDate}}</td>
+										</tr>
+										<tr class="tr">
+											<td>服務</td>
+											<td>{{item.serviceItem}}</td>
+											<td id="billno" Style="display:none;">{{item.billno}}</td>
+										</tr>
+										<tr class="tr" style="background-color: #ffffff ; ">
+											<td>售價</td>
+											<td>{{item.salePrice}}</td>
+										</tr>
+										<tr>
+											<td class="tr-end">備註</td>
+											<td class="tr-end">{{item.memo}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
 					</div>
 				</div>
 
 			</div>
-			
+
+			<fieldset id="editDialog" v-show="isEdit">
+				<h3>客戶資料編輯</h3>
+				<table>
+					<tr>
+						<td>日期</td>
+						<td><input type="text" v-bind:value="curCustomer.customerId" class="editFieldWidth" readonly />
+						</td>
+					</tr>
+					<tr>
+						<td>服務</td>
+						<td><input type="text" v-model:value="curCustomer.companyName" class="editFieldWidth" /></td>
+					</tr>
+					<tr>
+						<td>售價</td>
+						<td><input type="text" v-model:value="curCustomer.address" class="editFieldWidth" /></td>
+					</tr>
+					<tr>
+						<td>備註</td>
+						<td><input type="text" v-model:value="curCustomer.phone" class="editFieldWidth" /></td>
+					</tr>
+				</table>
+				<h3 style="color:red;">{{message}}</h4>
+			</fieldset>
 		</div>
-		
-		  
+
+
 
 		<!-- Sidebar -->
 		<div id="sidebar">
@@ -157,7 +200,7 @@
 					</ul>
 				</nav>
 
-				
+
 
 				<!-- Section -->
 				<section>
@@ -182,57 +225,126 @@
 	</div>
 
 	<!-- Scripts -->
-	
+
 
 	<script>
-        //1.建構一個Vue Instance物件
-        var app=new Vue(
-			{   
-                data:{
-					name:name,
-                    //呼喚後端服務回應的JSON Array
-                    result:[], //查詢結果
-                    message:'',
-                    isShow:false,
-					t_name:""
-                      //挑選的相對列物件
-                },
+		//1.建構一個Vue Instance物件
+		var app = new Vue(
+			{
+				data: {
+					notShow: false,
+					name: name,
+					//呼喚後端服務回應的JSON Array
+					result: [], //查詢結果
+					message: '',
+					isShow: false,
+					t_name: "",
+					isEdit: false,
+					curCustomer: {}//挑選的相對列物件
+				},
 				methods:
 				{
-            		queryHandler:function(){
-                        //reset
-                        this.isShow=false;
-                        this.message='';
-						this.t_name=$("#customerName option:selected").text(); //用jQuery抓到option text後傳進Vue
-						let urlString=t_queryURL+this.name;
+					queryHandler: function () {
+						//reset
+						this.isShow = false;
+						this.message = '';
+						this.t_name = $("#customerName option:selected").text(); //用jQuery抓到option text後傳進Vue
+						let urlString = t_queryURL + this.name;
 						//let urlString="http://sanny-studio.com/ERP/Service/Customer/Order/"+this.name;
 						//Request Method-GET
-                        axios.get(urlString)
-                        //http status 2xx 
-                        .then(res => {
-                            console.log(res)
-                            //將回呼查詢結果
-                            this.result=res.data;
-                            this.isShow=true;
-                        })
-                        //4xx or 5xx
-                        .catch(err => {
-                            console.log(err); 
-                            //判斷
-                            console.log(err.response);
-                            if(err.response.status==400){
-                                this.message=err.response.data.msg;
-                            }
-                        })
-                        
-                    }
-					
-					
-                }
-                
+						axios.get(urlString)
+							//http status 2xx 
+							.then(res => {
+								console.log(res)
+								//將回呼查詢結果
+								this.result = res.data;
+								this.isShow = true;
+							})
+							//4xx or 5xx
+							.catch(err => {
+								console.log(err);
+								//判斷
+								console.log(err.response);
+								if (err.response.status == 400) {
+									this.message = err.response.data.msg;
+								}
+							})
+
+					}
+					// ,
+					// //編輯按鈕觸發事件
+					// editHandler:function(e){
+					//     console.log(e);
+					//     this.isEdit=true;
+					//     this.message='';
+					//     //編輯按鈕對應資料渲染時的順序
+					//     let index=e.target.accessKey;
+					//     //相對陣列的順序 取出相對客戶物件 設定Vue資料模組 進行編輯該筆資料
+					//     this.curCustomer=this.result[index];
+					//     //使用jquery selector hight被點取的那一列row
+					//     let obj=$('#tbody tr')
+					//     console.log(obj);
+					//     //呈現對話盒
+					//     $('#editDialog').dialog(
+					//         //建構一個JS物件進行屬性設定
+					//         {
+					//             title:'客戶資料編輯',
+					//             width:400,
+					//             height:400,
+					//             //強佔式對話盒
+					//             modal:true,
+					//             //客製化按鈕
+					//             buttons:[
+					//                 {
+					//                     text:"儲存",
+					//                     click:function(){
+					//                         //TODO 採用非同步呼喚後端服務 送出json進行資料更新
+					//                         //服務位址
+					//                         let urlString=updateURL;
+					//                         console.log(app.curCustomer);
+					//                         //採用jQuery ajax
+					//                         $.ajax(
+					//                             {
+					//                                 //使用JS物件設定屬性
+					//                                 url:urlString, //服務位址
+					//                                 type:'PUT',
+					//                                 beforeSend:function(xhr){
+					//                                     //加入header
+					//                                     xhr.setRequestHeader("Content-Type","application/json");
+					//                                 },
+					//                                 data:JSON.stringify(app.curCustomer),
+					//                                 //callback 
+					//                                 success:function(data,status,xhr){
+					//                                     console.log(data);
+					//                                     //渲染畫面Vue Model
+					//                                     app.message=data.msg;
+					//                                 },
+					//                                 error:function(xhr,status,error){
+					//                                     console.log(xhr);
+					//                                 }
+					//                             }
+					//                         );
+					//                     }
+					//                 },
+					//                 {
+					//                     text:'取消',
+					//                     click:function(){
+					//                         //關閉對話盒
+					//                         $('#editDialog').dialog('close');
+					//                     }
+					//                 }
+					//             ]
+					//         }
+					//     );
+
+					// }
+
+
+				}
+
 			});
 		app.$mount('#myForm');
-			
+
 	</script>
 	<script th:src="@{/assets/js/jquery.min.js}"></script>
 	<script th:src="@{/assets/js/browser.min.js}"></script>
@@ -240,15 +352,13 @@
 	<script th:src="@{/assets/js/util.js}"></script>
 	<script th:src="@{/assets/js/main.js}"></script>
 	<script>
-		
-		 
-		function infor() 
-		{
+
+
+		function infor() {
 			alert("123");
 		}
 
-		function send(event)
-		{
+		function send(event) {
 			var name = document.getElementById("name").value;
 			var sex = document.getElementById("sex").value;
 			var phone = document.getElementById("phone").value;
@@ -257,27 +367,27 @@
 			salePrice = Number(salePrice); //去掉字符串前面的0
 			var createDate = document.getElementById("createDate").value;
 			var memo = document.getElementById("memo").value;
-			
+
 			//防止輸入空白 
-			if(name.length==0){alert("請輸入客戶姓名！"); event.preventDefault();return false;}
-			else if(sex.length==0){alert("請輸入性別！");event.preventDefault();return false;}
-			else if(phone.length==0||phone.length>10){alert("請輸入10位數字以下電話號碼！");event.preventDefault();return false;}
-			else if(serviceItem.length==0){alert("請輸入服務項目！");event.preventDefault();return false;}
-			else if(salePrice.length==0){alert("請輸入此次服務銷售金額！");event.preventDefault();return false;}
-			else if(createDate.length==0){alert("請輸入施作日期！");event.preventDefault();return false;}
-			
+			if (name.length == 0) { alert("請輸入客戶姓名！"); event.preventDefault(); return false; }
+			else if (sex.length == 0) { alert("請輸入性別！"); event.preventDefault(); return false; }
+			else if (phone.length == 0 || phone.length > 10) { alert("請輸入10位數字以下電話號碼！"); event.preventDefault(); return false; }
+			else if (serviceItem.length == 0) { alert("請輸入服務項目！"); event.preventDefault(); return false; }
+			else if (salePrice.length == 0) { alert("請輸入此次服務銷售金額！"); event.preventDefault(); return false; }
+			else if (createDate.length == 0) { alert("請輸入施作日期！"); event.preventDefault(); return false; }
+
 			//防止亂輸入
-			if(phone.length>10)alert("電話號碼不可超過10碼！");
-			if(memo.length>100)alert("備註不可超過一百字！");
+			if (phone.length > 10) alert("電話號碼不可超過10碼！");
+			if (memo.length > 100) alert("備註不可超過一百字！");
 			//alert(result);
 			//console.log(e);
 		}
-		
+
 		//window.onload = function(){
 		//	alert(result);
 		//}
-		
-		
+
+
 	</script>
 </body>
 

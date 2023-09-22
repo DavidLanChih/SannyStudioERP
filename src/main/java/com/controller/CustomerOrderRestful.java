@@ -54,6 +54,7 @@ public class CustomerOrderRestful {
 			ResultSet rs = st.executeQuery();
 			while (rs.next()) {
 				CustomerOrder customer = new CustomerOrder();
+				customer.setBillno(rs.getString("s003_Billno"));
 				customer.setName(rs.getString("s003_NameNo"));
 				customer.setServiceItem(rs.getString("i001_Name"));
 				customer.setSalePrice(rs.getString("s003_SalePrice"));
