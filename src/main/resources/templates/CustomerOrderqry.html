@@ -29,6 +29,24 @@
 		.tr:first-child{
 			background-color: #eeeeee;
 		}
+		.tr-end{
+			padding-bottom: 10px;
+		}
+		.tableStyle{
+			margin-top: 10px;
+		}
+		.itemTitle{
+			font-size:0.9em;
+			font-weight: 600;
+			padding: 0em 0.3em;
+		}
+		/* tbody 已在css檔案內，會被覆蓋 */
+		.tb{
+			font-size:0.9em;
+		}
+		legend.itemTitle{
+			margin-top: 10px;
+		}
 	</style>
 </head>
 
@@ -56,8 +74,8 @@
                         <p></p>
                         <fieldset v-show="isShow">
 							<div class="formbold-form-input">
-                            <legend >客戶: {{t_name}}</legend>
-                            <div>筆數: {{result.length}}</div>
+                            <legend class="itemTitle">客戶：{{t_name}}</legend>
+                            <div class="itemTitle">筆數：{{result.length}}</div>
                             <table class="tableStyle">
 								<!-- <thead Style="text-align:center; font-size:0.8em; font-weight: 1000;">
                                     <tr >
@@ -68,7 +86,7 @@
                                            
                                     </tr>
                                 </thead> -->
-                                <tbody v-for="item in result"  Style="font-size:0.8em;">
+                                <tbody v-for="item in result" class="tb">
                                     <!-- <tr v-for="item in result">
                                         
                                         <td>{{item.createDate}}</td>
@@ -79,7 +97,7 @@
 									<tr class="tr"><td style="width: 20%;">日期</td><td style="width: 80%;">{{item.createDate}}</td></tr>
 									<tr class="tr"><td>服務</td><td>{{item.serviceItem}}</td></tr>
 									<tr class="tr" style="background-color: #ffffff ; "><td>售價</td><td>{{item.salePrice}}</td></tr>
-									<tr class="tr"><td>備註</td><td>{{item.memo}}</td></tr>
+									<tr ><td class="tr-end">備註</td><td class="tr-end">{{item.memo}}</td></tr>
                                 </tbody>
                             </table>
 						</div>
@@ -186,8 +204,8 @@
                         this.isShow=false;
                         this.message='';
 						this.t_name=$("#customerName option:selected").text(); //用jQuery抓到option text後傳進Vue
-						//let urlString=t_queryURL+this.name;
-						let urlString="http://sanny-studio.com/ERP/Service/Customer/Order/"+this.name;
+						let urlString=t_queryURL+this.name;
+						//let urlString="http://sanny-studio.com/ERP/Service/Customer/Order/"+this.name;
 						//Request Method-GET
                         axios.get(urlString)
                         //http status 2xx 
