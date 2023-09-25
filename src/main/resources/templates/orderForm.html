@@ -41,10 +41,9 @@
 						<form action="" method="POST"  onsubmit="send(event)">
 							<div class="formbold-mb-3">
 								<label for="name" class="formbold-form-label"> 客戶姓名 </label>
-								<input list="name" name="name" id="name" placeholder="請輸入姓名" class="formbold-form-input"/>
-								<datalist >
-									<option value="藍智"></option>
-									<option value="劉姍霓"></option>
+								<input list="cusList" name="name" id="name" placeholder="請輸入姓名" class="formbold-form-input"/>
+								<datalist id="cusList">
+									<option v-for="cus in t_customer" :value=cus.name></option>
 								</datalist>
 							</div>
 							<div class="formbold-mb-3">
@@ -240,6 +239,17 @@
 	<script th:src="@{/assets/js/main.js}"></script>
 	<script>
 		
+		$("#name").change(function(){
+			//console.log($(this).html());
+			console.log(document.getElementById("name").value);
+			// console.log(document.getElementById("cusList").value);
+			// console.log($("#cusList").text());
+			// var e = document.getElementById("name");
+			// var strUser = e.options[e.selectedIndex].value;
+			// console.log(strUser);
+			//document.getElementById("phone").value=$(this).text();
+			alert(t_customer[1].name);
+		})
 		 
 		function infor() 
 		{
