@@ -71,11 +71,18 @@
 						<div class="formbold-form-label" style="font-weight: 600;">客戶查詢</div>
 						<p></p>
 						<div class="formbold-mb-3">
+							<!-- 下拉式選單 改成 datalist -->
 							<select name="customerName" id="customerName" class="formbold-form-input" v-model="name">
 								<option value="" selected>請選擇客戶</option>
-								<!-- <option th:each="customer : ${name} " th:value="${customer[0]}" th:text="${customer[1]}" ></option> -->
-								<option v-for="NameList in t_customerName" :value="NameList[0]">{{NameList[1]}}</option>
+								<!-- 下面兩種迴圈，選一種方式抓資料就可以 -->
+								<option th:each="customer : ${name} " th:value="${customer[0]}" th:text="${customer[1]}" ></option>
+								<!-- <option v-for="NameList in t_customerName" :value="NameList[0]">{{NameList[1]}}</option> -->
 							</select>
+							<!-- <label for="customerName"></label> -->
+							<!-- <input list="cusList" name="customerName" id="customerName" placeholder="請輸入姓名" class="formbold-form-input" v-model="name" onchange="chg();"/>
+							<datalist id="cusList">
+								<option v-for="cus in t_customerName" :value=cus[1] >{{cus[0]}}</option>
+							</datalist> -->
 							<button class="formbold-btn" type="sumbit" v-on:click="queryHandler">查詢</button>
 						</div>
 						<p></p>
@@ -126,8 +133,8 @@
 				</div>
 
 			</div>
-
-			<fieldset id="editDialog" v-show="isEdit">
+			<!-- 我忘記這個要做什麼用，應該是要測試之後做修改和刪除 -->
+			<!-- <fieldset id="editDialog" v-show="isEdit">
 				<h3>客戶資料編輯</h3>
 				<table>
 					<tr>
@@ -149,7 +156,7 @@
 					</tr>
 				</table>
 				<h3 style="color:red;">{{message}}</h4>
-			</fieldset>
+			</fieldset> -->
 		</div>
 
 
@@ -353,7 +360,11 @@
 	<script th:src="@{/assets/js/main.js}"></script>
 	<script>
 
-
+		function chg(){
+			alert(document.getElementById("customerName").innerText);
+		}
+	
+		
 		function infor() {
 			alert("123");
 		}
