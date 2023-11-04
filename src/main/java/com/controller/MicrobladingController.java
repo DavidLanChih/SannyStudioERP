@@ -246,7 +246,7 @@ public class MicrobladingController {
 		List<Customer> customerList = new ArrayList<Customer>();
 		
 		try(Connection con = datasource.getConnection()) {
-			String sql = "select i001_Code, i001_Name from inv001 where i001_kind = 'Microblanding' ";
+			String sql = "select i001_Code, i001_Name from inv001 ";
 			Statement stmt = con.createStatement();
 			ResultSet rs = stmt.executeQuery(sql);
 			System.out.println(SQL);
