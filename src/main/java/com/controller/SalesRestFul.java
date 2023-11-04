@@ -27,7 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/Microblading")
-public class MicrobladingRestFul {
+public class SalesRestFul {
 	@Autowired // 將下行HttpServletRequest物件注入至方法
 	private HttpServletRequest request;
 

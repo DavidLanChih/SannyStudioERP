@@ -34,7 +34,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/Microblading")
-public class MicrobladingController {
+public class SalesController {
 
 	@Autowired
 	private DataSource datasource; // 使用預設spring.datasource(application.properties自己設定內)
